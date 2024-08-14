@@ -16,6 +16,18 @@ app.use(express.json())
 mongoose.connect('mongodb+srv://srsharibalan2003:JWPXHm3ZejPtxAWr@vercel-mern.ade86.mongodb.net/?retryWrites=true&w=majority&appName=vercel-mern');
 
 
+app.get("/", (req, res) => {
+    res.json("Hello");
+})
+
+app.post('/register', async (req, res) => {
+    try {
+        // Your registration logic here
+    } catch (error) {
+        console.error('Registration Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 app.post('/register', (req, res) => {
