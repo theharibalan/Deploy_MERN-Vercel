@@ -1,38 +1,51 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const RegisterModel = require('./models/Register')
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const bcrypt = require('bcrypt'); // For hashing passwords
+const RegisterModel = require('./models/Register');
 
-const app = express()
-app.use(cors(
-    {
-        origin: ["https://deploy-mern-vercel-frontend.vercel.app"],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
-));
-app.use(express.json())
+const app = express();
 
-mongoose.connect('mongodb+srv://srsharibalan2003:JWPXHm3ZejPtxAWr@vercel-mern.ade86.mongodb.net/?retryWrites=true&w=majority&appName=vercel-mern');
+// Middleware
+app.use(cors({
+    origin: ["https://deploy-mern-vercel-frontend.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true
+}));
+app.use(express.json());
 
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://srsharibalan2003:JWPXHm3ZejPtxAWr@vercel-mern.ade86.mongodb.net/?retryWrites=true&w=majority&appName=vercel-mern', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log("Connected to MongoDB"))
+.catch(err => console.error("MongoDB connection error:", err));
 
+// Register Route
+app.post('/register', async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
 
-
-app.post('/register', (req, res) => {
-    const {name, email, password} = req.body;
-    RegisterModel.findOne({email: email})
-    .then(user => {
-        if(user) {
-            res.json("Already have an account")
-        } else {
-            RegisterModel.create({name: name, email: email, password: password})
-            .then(result => res.json(result))
-            .catch(err => res.json(err))
+        // Check if user already exists
+        const existingUser = await RegisterModel.findOne({ email: email });
+        if (existingUser) {
+            return res.status(400).json({ message: "Already have an account" });
         }
-    }).catch(err => res.json(err))
-})
 
+        // Hash the password before saving
+        const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Create a new user
+        const newUser = await RegisterModel.create({ name: name, email: email, password: hashedPassword });
+        return res.status(201).json(newUser);
+    } catch (err) {
+        console.error("Error during registration:", err);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+// Start the Server
 app.listen(3001, () => {
-    console.log("Server is Running")
-})
+    console.log("Server is Running on port 3001");
+});
