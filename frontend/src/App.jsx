@@ -11,25 +11,43 @@ function App() {
 
   axios.defaults.withCredentials = true;
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   // Basic form validation
+  //   if (!name || !email || !password) {
+  //     setMessage("Please fill out all fields.");
+  //     return;
+  //   }
+
+  //   axios.post("https://deploy-mern-vercel-api.vercel.app/register", { name, email, password })
+  //     .then((result) => {
+  //       console.log(result);
+  //       setMessage("Registration successful!");
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       setMessage("Registration failed. Please try again.");
+  //     });
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic form validation
-    if (!name || !email || !password) {
-      setMessage("Please fill out all fields.");
-      return;
-    }
+    const attemptRequest = (retries = 3) => {
+        axios.post('https://deploy-mern-vercel-api.vercel.app/register', {name, email, password})
+        .then(result => console.log(result))
+        .catch(err => {
+            console.log(err);
+            if (retries > 0) {
+                setTimeout(() => attemptRequest(retries - 1), 1000);
+            }
+        });
+    };
 
-    axios.post("https://deploy-mern-vercel-api.vercel.app/register", { name, email, password })
-      .then((result) => {
-        console.log(result);
-        setMessage("Registration successful!");
-      })
-      .catch((err) => {
-        console.error(err);
-        setMessage("Registration failed. Please try again.");
-      });
-  };
+    attemptRequest();
+};
+
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-primary vh-100">
