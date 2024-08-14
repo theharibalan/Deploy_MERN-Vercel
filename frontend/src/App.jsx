@@ -10,6 +10,8 @@ function App() {
   const [message, setMessage] = useState("");  // State for feedback messages
 
   axios.defaults.withCredentials = true;
+  axios.post('https://deploy-mern-vercel-pi.vercel.app/register', {name, email, password})
+
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
