@@ -30,19 +30,23 @@ app.post('/register', async (req, res) => {
 });
 
 
-app.post('/register', (req, res) => {
-    const {name, email, password} = req.body;
-    RegisterModel.findOne({email: email})
-    .then(user => {
-        if(user) {
-            res.json("Already have an account")
-        } else {
-            RegisterModel.create({name: name, email: email, password: password})
-            .then(result => res.json(result))
-            .catch(err => res.json(err))
-        }
-    }).catch(err => res.json(err))
-})
+app.post('/register', async (req, res) => {
+    try {
+      const { name, email, password } = req.body;
+      const existingUser = await RegisterModel.findOne({ email });
+  
+      if (existingUser) {
+        res.json("Already have an account");
+      } else {
+        const newUser = await RegisterModel.create({ name, email, password });
+        res.json(newUser);
+      }
+    } catch (error) {
+      console.error('Registration Error:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
 
 
 app.listen(3001, () => {
