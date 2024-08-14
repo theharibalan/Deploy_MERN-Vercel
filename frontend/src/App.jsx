@@ -35,7 +35,7 @@ function App() {
     e.preventDefault();
 
     const attemptRequest = (retries = 3) => {
-        axios.post('https://deploy-mern-vercel-api.vercel.app/register', {name, email, password})
+        axios.post('https://deploy-mern-vercel-pi.vercel.app/register', {name, email, password})
         .then(result => console.log(result))
         .catch(err => {
             console.log(err);
