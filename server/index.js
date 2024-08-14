@@ -13,7 +13,7 @@ app.use(cors(
 ));
 app.use(express.json())
 
-mongoose.connect('mongodb+srv://srsharibalan2003:<password>@vercel-mern.ade86.mongodb.net/?retryWrites=true&w=majority&appName=vercel-mern');
+mongoose.connect('mongodb+srv://srsharibalan2003:<JWPXHm3ZejPtxAWr>@vercel-mern.ade86.mongodb.net/?retryWrites=true&w=majority&appName=vercel-mern');
 
 
 app.get("/", (req, res) => {
