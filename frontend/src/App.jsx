@@ -20,7 +20,7 @@ function App() {
       return;
     }
 
-    axios.post("https://deploy-mern-vercel-ochre.vercel.app/register", { name, email, password })
+    axios.post("https://deploy-mern-vercel-api.vercel.app/register", { name, email, password })
       .then((result) => {
         console.log(result);
         setMessage("Registration successful!");
