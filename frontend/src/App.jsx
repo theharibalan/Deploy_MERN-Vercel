@@ -16,42 +16,42 @@ function App() {
 
 
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   // Basic form validation
-  //   if (!name || !email || !password) {
-  //     setMessage("Please fill out all fields.");
-  //     return;
-  //   }
-
-  //   axios.post("https://deploy-mern-vercel-api.vercel.app/register", { name, email, password })
-  //     .then((result) => {
-  //       console.log(result);
-  //       setMessage("Registration successful!");
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //       setMessage("Registration failed. Please try again.");
-  //     });
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const attemptRequest = (retries = 3) => {
-        axios.post('https://deploy-mern-vercel-pi.vercel.app/register', {name, email, password})
-        .then(result => console.log(result))
-        .catch(err => {
-            console.log(err);
-            if (retries > 0) {
-                setTimeout(() => attemptRequest(retries - 1), 1000);
-            }
-        });
-    };
+    // Basic form validation
+    if (!name || !email || !password) {
+      setMessage("Please fill out all fields.");
+      return;
+    }
 
-    attemptRequest();
-};
+    axios.post("https://deploy-mern-vercel-api.vercel.app/register", { name, email, password })
+      .then((result) => {
+        console.log(result);
+        setMessage("Registration successful!");
+      })
+      .catch((err) => {
+        console.error(err);
+        setMessage("Registration failed. Please try again.");
+      });
+  };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+
+//     const attemptRequest = (retries = 3) => {
+//         axios.post('https://deploy-mern-vercel-pi.vercel.app/register', {name, email, password})
+//         .then(result => console.log(result))
+//         .catch(err => {
+//             console.log(err);
+//             if (retries > 0) {
+//                 setTimeout(() => attemptRequest(retries - 1), 1000);
+//             }
+//         });
+//     };
+
+//     attemptRequest();
+// };
 
 
   return (
