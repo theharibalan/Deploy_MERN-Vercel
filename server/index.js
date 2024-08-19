@@ -37,6 +37,6 @@ app.post('/register', async (req, res) => {
     console.error('Registration Error:', error);
     res.status(500).send('Internal Server Error');
   }
-});Z
+});
 
 module.exports = app;
